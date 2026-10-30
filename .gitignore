@@ -218,3 +218,25 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific ML Pipeline & Data ignores
+mlflow.db
+mlflow.db-journal
+mlruns/
+logs/
+data/processed/
+data/training/
+models/*.joblib
+models/*.pt
+models/*.png
+Data files/*.parquet
+Data_Files/*.parquet
+.venv/
+ml-env/
+airflow-env/
+airflow.cfg
+airflow.db
+webserver_config.py
+DEMO_GUIDE.md
+DIRECTORY_STRUCTURE.html
+ProposedPlan.md

@@ -1,0 +1,56 @@
+environment: production
+project_name: "nyc_taxi_fare_ml_pipeline"
+
+data:
+  raw_dir: "Data_Files"
+  raw_file_pattern: "*.parquet"
+  processed_dir: "data/processed"
+  processed_file: "data/processed/taxi_cleaned.parquet"
+  models_dir: "models"
+  preprocessor_path: "models/preprocessor.joblib"
+  model_path: "models/fare_model.pt"
+  sample_rows: null  # Use full dataset
+  random_seed: 42
+
+filters:
+  min_fare: 2.5
+  max_fare: 250.0
+  min_distance: 0.1
+  max_distance: 60.0
+  min_passengers: 1
+  max_passengers: 6
+
+features:
+  numeric:
+    - trip_distance
+    - passenger_count
+    - pickup_hour
+    - pickup_day_of_week
+  categorical:
+    - PULocationID
+    - DOLocationID
+    - RatecodeID
+  target: fare_amount
+  test_size: 0.2
+
+spark:
+  app_name: "NYCTaxiFare_SparkIngestion_Prod"
+  master: "local[*]"
+  driver_memory: "8g"
+  log_level: "WARN"
+
+training:
+  batch_size: 256
+  learning_rate: 0.0005
+  epochs: 25
+  hidden_dim1: 256
+  hidden_dim2: 128
+  dropout: 0.15
+  weight_decay: 0.00001
+  device: "cpu"
+
+mlflow:
+  experiment_name: "nyc_taxi_fare_prediction_prod"
+  tracking_uri: "sqlite:///mlflow.db"
+  artifact_location: "./mlruns"
+
